@@ -46,6 +46,7 @@ const utf8 = {
 
       let charCode = string.codePointAt(i);
       let nbytes = utf8._bytesForChar(charCode);
+      if (nbytes==4) i+=1;
       if (nbytes + byteOffset >size) {  //
         size = string.length * 4;   // max possible size
         let newBytes = new Uint8Array(size);
@@ -58,7 +59,6 @@ const utf8 = {
       } else {
         // Computing the first byte
         let pad = (15 >> (4-nbytes)) << (8-nbytes);
-        //let pad = parseInt('1111'.slice(0, nbytes), 2);
         bytes[byteOffset++] = pad + (charCode >>> ((--nbytes) * 6));
         // Computing next bytes
         for (; nbytes > 0;) {
